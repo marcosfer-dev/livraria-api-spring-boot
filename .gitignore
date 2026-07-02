@@ -1,0 +1,72 @@
+# Compilados Java
+*.class
+
+# Pacotes
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+logs/
+
+# JVM crash logs
+hs_err_pid*
+
+# Diretórios de build
+target/
+build/
+out/
+
+# Maven
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Arquivos temporários
+*.tmp
+*.swp
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração sensíveis
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+application-prod.properties
+application-prod.yml
+
+# Variáveis de ambiente
+.env
+
+# Uploads temporários
+uploads/
+tmp/
+
+# Banco embarcado
+*.db
+*.mv.db
+*.trace.db
+
+# Cache
+.cache/
+
+# Test reports
+surefire-reports/
+failsafe-reports/
+
+# Lombok
+lombok.config
