@@ -1,6 +1,7 @@
 package io.github.marcos.livrariaapi.livros;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,27 @@ public class Livro {
         this.editora = dadosCadastroLivro.editora();
         this.quantidadeExemplares = dadosCadastroLivro.quantidadeExemplares();
         this.status = StatusLivro.DISPONIVEL;
+    }
+
+    public void atualizarInformacoes(@Valid DadosAtualizarLivro dadosLivro) {
+        if (dadosLivro.titulo() != null) {
+            this.titulo = dadosLivro.titulo();
+        }
+
+        if (dadosLivro.autor() != null) {
+            this.autor = dadosLivro.autor();
+        }
+
+        if (dadosLivro.anoPublicacao() != null) {
+            this.anoPublicacao = dadosLivro.anoPublicacao();
+        }
+
+        if (dadosLivro.editora() != null) {
+            this.editora = dadosLivro.editora();
+        }
+
+        if (dadosLivro.quantidadeExemplares() != null) {
+            this.quantidadeExemplares = dadosLivro.quantidadeExemplares();
+        }
     }
 }

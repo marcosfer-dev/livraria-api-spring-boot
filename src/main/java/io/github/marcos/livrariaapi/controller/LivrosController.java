@@ -1,9 +1,6 @@
 package io.github.marcos.livrariaapi.controller;
 
-import io.github.marcos.livrariaapi.livros.DadosCadastroLivro;
-import io.github.marcos.livrariaapi.livros.DadosListagemLivro;
-import io.github.marcos.livrariaapi.livros.Livro;
-import io.github.marcos.livrariaapi.livros.LivroRepository;
+import io.github.marcos.livrariaapi.livros.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +27,13 @@ public class LivrosController {
                 .stream()
                 .map(DadosListagemLivro::new)
                 .toList();
+    }
+
+    @PutMapping
+    @Transactional
+    public void atualizarLivro(@RequestBody @Valid DadosAtualizarLivro dadosAtualizarLivro) {
+        var livro = livroRepository.getReferenceById(dadosAtualizarLivro.id());
+        livro.atualizarInformacoes(dadosAtualizarLivro);
     }
 
 }
