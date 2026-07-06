@@ -36,4 +36,10 @@ public class LivrosController {
         livro.atualizarInformacoes(dadosAtualizarLivro);
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluirLivro(@PathVariable Long id) {
+        livroRepository.deleteById(id);
+    }
+
 }
