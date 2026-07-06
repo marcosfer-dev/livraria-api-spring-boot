@@ -42,7 +42,7 @@ public class LivrosController {
         livroRepository.deleteById(id);
     }
 
-    @DeleteMapping("inativar/{id}")
+    @DeleteMapping("/inativar/{id}")
     @Transactional
     public void inativarLivro(@PathVariable Long id) {
         var livro = livroRepository.getReferenceById(id);
