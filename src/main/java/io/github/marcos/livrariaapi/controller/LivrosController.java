@@ -23,7 +23,7 @@ public class LivrosController {
 
     @GetMapping
     public List<DadosListagemLivro> listarLivros() {
-        return livroRepository.findAll()
+        return livroRepository.findAllByStatus(StatusLivro.DISPONIVEL)
                 .stream()
                 .map(DadosListagemLivro::new)
                 .toList();
@@ -42,4 +42,17 @@ public class LivrosController {
         livroRepository.deleteById(id);
     }
 
+    @DeleteMapping("inativar/{id}")
+    @Transactional
+    public void inativarLivro(@PathVariable Long id) {
+        var livro = livroRepository.getReferenceById(id);
+        livro.inativar();
+    }
+
+    @PutMapping("/reativar/{id}")
+    @Transactional
+    public void reativarLivro(@PathVariable Long id) {
+        var livro = livroRepository.getReferenceById(id);
+        livro.reativar();
+    }
 }

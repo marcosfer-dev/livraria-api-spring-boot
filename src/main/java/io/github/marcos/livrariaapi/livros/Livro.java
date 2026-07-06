@@ -60,4 +60,12 @@ public class Livro {
             this.quantidadeExemplares = dadosLivro.quantidadeExemplares();
         }
     }
+
+    public void inativar() {
+        this.status = StatusLivro.INATIVO;
+    }
+
+    public void reativar() {
+        this.status = StatusLivro.DISPONIVEL;
+    }
 }
