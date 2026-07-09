@@ -3,8 +3,10 @@ package io.github.marcos.livrariaapi.controller;
 import io.github.marcos.livrariaapi.livros.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -17,42 +19,57 @@ public class LivrosController {
 
     @PostMapping
     @Transactional
-    public void cadastrarLivro(@RequestBody @Valid DadosCadastroLivro dadosCadastroLivro) {
-        livroRepository.save(new Livro(dadosCadastroLivro));
+    public ResponseEntity<DadosDetalhamentoLivro> cadastrarLivro(@RequestBody @Valid DadosCadastroLivro dadosCadastroLivro, UriComponentsBuilder uriBuilder) {
+        var livro = new Livro(dadosCadastroLivro);
+        livroRepository.save(livro);
+
+        var uri = uriBuilder.path("/livros/{id}").buildAndExpand(livro.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoLivro(livro));
     }
 
     @GetMapping
-    public List<DadosListagemLivro> listarLivros() {
-        return livroRepository.findAllByStatus(StatusLivro.DISPONIVEL)
+    public ResponseEntity<List<DadosListagemLivro>> listarLivros() {
+        var lista = livroRepository.findAllByStatus(StatusLivro.DISPONIVEL)
                 .stream()
                 .map(DadosListagemLivro::new)
                 .toList();
+
+        return ResponseEntity.ok(lista);
     }
 
     @PutMapping
     @Transactional
-    public void atualizarLivro(@RequestBody @Valid DadosAtualizarLivro dadosAtualizarLivro) {
+    public ResponseEntity<DadosDetalhamentoLivro> atualizarLivro(@RequestBody @Valid DadosAtualizarLivro dadosAtualizarLivro) {
         var livro = livroRepository.getReferenceById(dadosAtualizarLivro.id());
         livro.atualizarInformacoes(dadosAtualizarLivro);
+
+        return ResponseEntity.ok(new DadosDetalhamentoLivro(livro));
     }
 
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluirLivro(@PathVariable Long id) {
+    public ResponseEntity<Void> excluirLivro(@PathVariable Long id) {
         livroRepository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/inativar/{id}")
     @Transactional
-    public void inativarLivro(@PathVariable Long id) {
+    public ResponseEntity<Void> inativarLivro(@PathVariable Long id) {
         var livro = livroRepository.getReferenceById(id);
         livro.inativar();
-    }
 
+        return ResponseEntity.noContent().build();
+    }
     @PutMapping("/reativar/{id}")
     @Transactional
-    public void reativarLivro(@PathVariable Long id) {
+    public ResponseEntity<Void> reativarLivro(@PathVariable Long id) {
         var livro = livroRepository.getReferenceById(id);
         livro.reativar();
+
+        return ResponseEntity.noContent().build();
     }
+
 }
