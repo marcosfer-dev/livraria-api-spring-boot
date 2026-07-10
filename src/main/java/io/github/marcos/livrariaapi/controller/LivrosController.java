@@ -72,4 +72,10 @@ public class LivrosController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoLivro> detalharLivro(@PathVariable Long id) {
+        var livro = livroRepository.getReferenceById(id);
+
+        return ResponseEntity.ok(new DadosDetalhamentoLivro(livro));
+    }
 }
