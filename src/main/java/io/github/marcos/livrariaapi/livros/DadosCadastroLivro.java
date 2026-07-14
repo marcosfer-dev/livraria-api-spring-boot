@@ -1,27 +1,24 @@
 package io.github.marcos.livrariaapi.livros;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 public record DadosCadastroLivro(
 
-        @NotBlank
+        @NotBlank(message = "Nome não pode estar em branco")
         String titulo,
 
-        @NotBlank
+        @NotBlank(message = "Autor não pode estar em branco")
         String autor,
 
-        @NotNull
+        @NotNull(message = "O ano é obrigatório")
         @Min(1000)
         Integer anoPublicacao,
 
-        @NotBlank
+        @NotBlank(message = "A editora é obrigatória e não pode estar em branco")
         String editora,
 
-        @NotNull
-        @Positive
+        @NotNull(message = "A quantidade de exemplares é obrigatória")
+        @PositiveOrZero(message = "A quantidade não pode ser negativa.")
         Integer quantidadeExemplares
     ) {
 }
