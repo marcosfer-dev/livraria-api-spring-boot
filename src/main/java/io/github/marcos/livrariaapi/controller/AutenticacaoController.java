@@ -1,6 +1,8 @@
 package io.github.marcos.livrariaapi.controller;
 
+import io.github.marcos.livrariaapi.infra.TokenService;
 import io.github.marcos.livrariaapi.usuario.DadosAutenticacao;
+import io.github.marcos.livrariaapi.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,13 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     private ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
         var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
         var autenticacao = manager.authenticate(token);
-        return ResponseEntity.ok().build();
-
+        return ResponseEntity.ok(tokenService.gerarToken((Usuario) autenticacao.getPrincipal()));
     }
 }
